@@ -49,17 +49,18 @@ Para que el Dashboard funcione correctamente, es recomendable tener instalado:
 
 ## Atajos Incluidos
 
-Una vez instalado, podés escribir comandos en la terminal para ver la lista completa.
+Una vez instalado, podés escribir `comandos` en la terminal para ver la lista rápida, o usar **`comandos -a`** para ver la documentación detallada.
 
 | Comando | Descripción |
-|---------|-------------|
-| `c` | Limpia la pantalla y recarga el dashboard visual |
-| `dev` | Ejecuta `npm run dev` |
-| `killport 3000` | Libera el puerto 3000 si quedó bloqueado por un proceso de Node/Express |
-| `nota [texto]` | Guarda una nota rápida en tu backlog de desarrollador |
-| `misnotas` | Imprime todas tus notas pendientes en pantalla |
-| `api` | Te lleva directo a tu carpeta de proyectos |
-
+| :--- | :--- |
+| `c` | Limpia la pantalla y recarga el dashboard visual. |
+| `comandos -a` | Despliega el menú de ayuda con la referencia detallada de cada atajo. |
+| `dev` | Ejecuta `npm run dev` al instante. |
+| `killport 3000` | Libera el puerto 3000 si quedó bloqueado por un proceso de Node/Express. |
+| `nota [texto]` | Guarda una nota rápida en tu backlog de desarrollador. |
+| `misnotas` | Imprime todas tus notas pendientes en pantalla. |
+| `api` | Te lleva directo a tu carpeta de proyectos. |
+| `bashconfig -r` | Abre el editor para modificar tu `.bashrc`, o usa `-r` para recargarlo al instante. |
 ## 🤝 Contribuciones
 
 Si tenés ideas para agregar más alias útiles o mejorar el script de inicio, ¡los pull requests son bienvenidos!
