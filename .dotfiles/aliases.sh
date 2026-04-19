@@ -1,0 +1,12 @@
+# --- ALIAS ---
+alias ..='cd ..'
+alias c='dashboard'
+alias ll='ls -la'
+alias mi-ip='ipconfig | grep -a -i "IPv4"'
+alias gs='git status'
+alias ga='git add .'
+alias gc='git commit -m'
+alias gl='git log --graph --oneline --decorate --all --color'
+alias dev='npm run dev'
+
+alias br='bashconfig -r'
