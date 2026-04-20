@@ -122,22 +122,63 @@ configurar-entorno() {
 # ==========================================
 # Editor de Logo ASCII
 # ==========================================
-mi-logo() { 
+# Cambiar el logo y color dinámicamente con menú interactivo
+mi-logo() {
+    local LOGOS_DIR="$DOTFILES_DIR/logos"
+    local CONFIG_FILE="$DOTFILES_DIR/user_config.sh"
+
     clear
-    echo -e "\e[33m=== EDITOR DE LOGO ASCII ===\e[0m"
-    echo "Pegá tu arte ASCII en la siguiente pantalla."
-    echo ""
-    echo "Cuando termines, presiona:"
-    echo "1. Ctrl + O (luego Enter para guardar)"
-    echo "2. Ctrl + X (para salir)"
-    echo ""
+    echo -e "\e[36m========== 🎨 CATÁLOGO DE LOGOS ==========\e[0m"
+    local logos=($(ls "$LOGOS_DIR" | grep '\.txt$' | sed 's/\.txt$//'))
     
-    # Pausa interactiva inteligente
-    echo -e "\e[5mPresiona cualquier tecla para abrir el editor...\e[0m"
-    read -n 1 -s -r
+    for i in "${!logos[@]}"; do
+        echo -e "  \e[33m$((i+1)).\e[0m ${logos[$i]}"
+    done
+    echo -e "\e[36m==========================================\e[0m"
     
-    nano ~/.dotfiles/custom_logo.txt
-    source ~/.bashrc
+    read -p "Elige el número del logo (Enter para cancelar): " OPCION_LOGO
+    
+    # Validar Logo
+    if [[ "$OPCION_LOGO" =~ ^[0-9]+$ ]] && [ "$OPCION_LOGO" -ge 1 ] && [ "$OPCION_LOGO" -le "${#logos[@]}" ]; then
+        local SELECCION_LOGO="${logos[$((OPCION_LOGO-1))]}"
+        
+        echo -e "\n\e[36m========== 🖌️  PALETA DE COLORES ==========\e[0m"
+        local colores=("cyan" "green" "red" "yellow" "blue" "magenta" "white")
+        local codigos=("\e[36m" "\e[32m" "\e[31m" "\e[33m" "\e[34m" "\e[35m" "\e[37m")
+        
+        # Imprime la lista mostrando el nombre escrito en su propio color
+        for i in "${!colores[@]}"; do
+            echo -e "  \e[33m$((i+1)).\e[0m ${codigos[$i]}${colores[$i]}\e[0m"
+        done
+        echo -e "\e[36m==========================================\e[0m"
+        
+        read -p "Elige el número del color (Enter para usar cyan por defecto): " OPCION_COLOR
+        
+        # Validar Color (Si el usuario solo da Enter, se queda en cyan)
+        local SELECCION_COLOR="cyan"
+        if [[ "$OPCION_COLOR" =~ ^[0-9]+$ ]] && [ "$OPCION_COLOR" -ge 1 ] && [ "$OPCION_COLOR" -le "${#colores[@]}" ]; then
+            SELECCION_COLOR="${colores[$((OPCION_COLOR-1))]}"
+        fi
+
+        # Actualizar Logo en el archivo
+        sed -i "s/.*HYLER_LOGO=.*/export HYLER_LOGO=\"$SELECCION_LOGO\"/" "$CONFIG_FILE"
+        
+        # Actualizar Color en el archivo (Si no existe la variable, la inyecta al final)
+        if grep -q "HYLER_COLOR=" "$CONFIG_FILE"; then
+            sed -i "s/.*HYLER_COLOR=.*/export HYLER_COLOR=\"$SELECCION_COLOR\"/" "$CONFIG_FILE"
+        else
+            echo "export HYLER_COLOR=\"$SELECCION_COLOR\"" >> "$CONFIG_FILE"
+        fi
+        
+        # Cargar a la memoria actual y renderizar
+        export HYLER_LOGO="$SELECCION_LOGO"
+        export HYLER_COLOR="$SELECCION_COLOR"
+        clear
+        echo -e "\e[32m✨ ¡Estilo actualizado! Logo: $SELECCION_LOGO | Color: $SELECCION_COLOR\e[0m\n"
+        dashboard
+    else
+        echo -e "\e[31m❌ Operación cancelada.\e[0m"
+    fi
 }
 
 # ==========================================
@@ -211,3 +252,4 @@ killport() {
         fi
     fi
 }
+
