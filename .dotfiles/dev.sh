@@ -12,7 +12,76 @@ dev-help() {
     echo -e "\e[35m================================================\e[0m"
 }
 
+#  PUBLICAR CAMBIOS AL ENTORNO VIVO
+# Copia los cambios de este repositorio a tu instalación de Hyler
+# Útil cuando has mejorado los scripts en este repositorio y quieres aplicarlos a tu terminal
+dev-publish() {
+    local REPO_DOTFILES="$(pwd)/.dotfiles"
+    local LIVE_DOTFILES="$HOME/.dotfiles"
+
+    # Verificar que estamos en el repositorio de Hyler
+    if [ ! -d "$REPO_DOTFILES" ]; then
+        echo -e "\e[31m❌ Error: No se encontró el directorio .dotfiles en el repositorio actual.\e[0m"
+        echo -e "\e[90mAsegurate de estar en el directorio raíz del proyecto hyler-gitbash.\e[0m"
+        return 1
+    fi
+
+    # Verificar que la instalación de Hyler existe
+    if [ ! -d "$LIVE_DOTFILES" ]; then
+        echo -e "\e[31m❌ Error: No se encontró la instalación de Hyler en $LIVE_DOTFILES\e[0m"
+        echo -e "\e[90mEjecuta primero la instalación: cp -r .dotfiles ~/.dotfiles\e[0m"
+        return 1
+    fi
+
+    echo -e "\e[36m📤 Publicando cambios del repositorio a tu instalación de Hyler...\e[0m"
+
+    # Lista de archivos básicos a sincronizar (incluyendo configuración de shell)
+    local files_to_sync=(
+        ".bashrc"
+        ".bash_profile"
+        "dashboard.sh"
+        "dev.sh"
+        "help.sh"
+        "prompt.sh"
+        "utils.sh"
+        "aliases.sh"
+    )
+
+    # Sincronizar cada archivo básico
+    for file in "${files_to_sync[@]}"; do
+        local source="$REPO_DOTFILES/$file"
+        local dest="$LIVE_DOTFILES/$file"
+
+        if [ -f "$source" ]; then
+            cp "$source" "$dest"
+            echo -e "\e[32m✔️  Actualizado: $file\e[0m"
+        else
+            echo -e "\e[90m⚠️  No encontrado en repo (omitido): $file\e[0m"
+        fi
+    done
+
+    # Sincronizar directorio de logos
+    if [ -d "$REPO_DOTFILES/logos" ]; then
+        cp -r "$REPO_DOTFILES/logos"/* "$LIVE_DOTFILES/logos/" 2>/dev/null
+        echo -e "\e[32m✔️  Directorio sincronizado: logos/\e[0m"
+    else
+        echo -e "\e[90m⚠️  Directorio de logos no encontrado en repo\e[0m"
+    fi
+
+    # NOTA: No sobrescribimos user_config.sh ni notas_dev.txt para preservar tu configuración personal
+
+    echo -e "\e[32m✨ ¡Publicación completada!\e[0m"
+    echo -e "\e[90m💡 Sugerencia: Ejecuta 'source ~/.bashrc' o inicia una nueva terminal para aplicar los cambios.\e[0m"
+
+    echo -e "Resultados: \e[32m$exitos funcionales\e[0m | \e[31m$fallos rotos\e[0m"
+    
+    cd - > /dev/null
+    rm -rf "$TEST_DIR"
+}
+
 # 2. Herramienta de Sincronización Automática (Dinámica)
+# Sincroniza tu instalación activa de Hyler a este repositorio
+# Útil cuando has hecho cambios en tu terminal y quieres traerlos al repo para hacer PRs
 dev-sync() {
     clear
     echo -e "\e[33m🔄 INICIANDO SINCRONIZACIÓN AL REPOSITORIO...\e[0m"
@@ -132,6 +201,10 @@ dev-audit() {
     done
 
     echo -e "\e[36m===========================================\e[0m"
+    echo -e "Resultados: \e[32m$exitos funcionales\e[0m | \e[31m$fallos rotos\e[0m"
+    
+    cd - > /dev/null
+    rm -rf "$TEST_DIR"
     echo -e "Resultados: \e[32m$exitos funcionales\e[0m | \e[31m$fallos rotos\e[0m"
     
     cd - > /dev/null

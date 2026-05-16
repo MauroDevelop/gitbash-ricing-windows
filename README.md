@@ -1,5 +1,7 @@
 # Hyler GitBash
 
+<img src="https://i.ibb.co/HTPWL189/dashboard.gif" alt="dashboard" border="0" width="600">
+
 ¡Bienvenido a **Hyler**! Si sos desarrollador, usás Windows 11 y querés exprimir al máximo los recursos de tu hardware sin que la RAM se evapore usando WSL o máquinas virtuales, este proyecto es para vos.
 
 Hyler es una arquitectura modular de dotfiles diseñada para transformar la simple terminal de Git Bash en un entorno de desarrollo profesional, bonito, ligero y con funcionalidades de Linux.
@@ -16,16 +18,18 @@ Hyler es una arquitectura modular de dotfiles diseñada para transformar la simp
 
 Sigue estos comandos para aplicar Hyler en tu propia máquina:
 
-1. **Cloná este repositorio** en tu computadora:
+1. **Cloná este repositorio** en tu computadora e ingresá a la carpeta del proyecto:
 
 ```bash
 git clone https://github.com/MauroDevelop/hyler-gitbash.git
+cd hyler-gitbash
 ```
 
 2. Copiá la arquitectura a tu directorio raíz.  
 Abre Git Bash y usa los siguientes comandos para mover el loader, el profile y la carpeta de módulos a tu usuario:
 
 ```bash
+
 cp .bashrc ~/.bashrc
 cp .bash_profile ~/.bash_profile
 cp -r .dotfiles ~/.dotfiles
@@ -44,6 +48,9 @@ configurar-entorno
 Hyler permite una personalización completa del entorno sin necesidad de editar scripts de Bash manualmente, evitando errores de sintaxis y rutas.
 
 ### Asistente Interactivo (`configurar-entorno`)
+
+<img src="https://i.ibb.co/67m1cYMZ/mi-config.gif" alt="mi-config" border="0" width="00">
+
 Este comando inicia un asistente que genera automáticamente tu Panel de Control (`user_config.sh`):
 
 * **Identidad**: Define tu nombre para el prompt y un título corto para el encabezado del dashboard.
@@ -52,14 +59,29 @@ Este comando inicia un asistente que genera automáticamente tu Panel de Control
     * En las preguntas de rutas (Proyectos o Notas), puedes ingresar un punto (`.`) y el asistente detectará automáticamente tu ubicación actual.
     * **Gestión Automática**: Si defines una ruta para tus notas, el sistema se encargará de crear el archivo `notas_dev.txt` por ti si no existe en el disco.
 
-### Arte ASCII Personalizado (`mi-logo`)
-Para utilizar logos de gran tamaño (multi-línea) de forma segura, utiliza este comando dedicado:
+### Arte ASCII Personalizado (mi-logo)
 
-1.  Ejecuta `mi-logo` y presiona una tecla para entrar al editor de texto.
-2.  Pega tu diseño ASCII directamente en la pantalla.
-3.  Presiona `Ctrl + O` y luego `Enter` para guardar los cambios.
-4.  Presiona `Ctrl + X` para salir. 
-*Hyler detectará automáticamente la presencia de tu logo personalizado y le dará prioridad visual sobre el título de texto corto en el dashboard.*
+Dale un toque único y dinámico a tu dashboard. Hyler soporta una colección de logos ASCII de gran tamaño (multi-línea) que tienen prioridad visual sobre el título de texto corto.
+
+### Selección de logos ASCII personalizados
+*El comando `mi-logo` inicia este selector visual dinámico.*
+
+<img src="https://i.ibb.co/MysjsBPk/swich-logos.gif" alt="swich logos" border="0" width="600">
+Hyler incluye una biblioteca de diseños de alta calidad (como frieren, hacker, skull, etc.) que puedes explorar y elegir.
+
+#### ¿Cómo agregar tu propio arte ASCII?
+
+Aún no existe una opción directamente desde la terminal para agregar nuevos logos a la biblioteca, pero puedes hacerlo manualmente en segundos:
+
+1.  **Abre tu gestor de archivos** de Windows y navega hasta la carpeta del proyecto.
+2.  Ingresa a la ruta: `.dotfiles/logos`.
+3.  **Crea un nuevo archivo de texto** (`.txt`) con el nombre que quieras para tu logo (ej: `mi-dragon.txt`).
+4.  **Pega tu arte ASCII multi-línea** dentro del archivo y guárdalo.
+
+Hyler detectará automáticamente el nuevo archivo y lo incluirá en el selector la próxima vez que ejecutes el comando `mi-logo`. ¡Así de simple!
+
+
+<img src="https://i.ibb.co/xdtCcP2/logos-show.gif" alt="logos show" border="0" width="600">
 
 ### Auditoría de Entorno (`mi-config`)
 Utiliza este comando para visualizar rápidamente un resumen de tus rutas de trabajo, ciudad y variables activas en una pantalla modal. Al finalizar la lectura, presiona cualquier tecla para retornar automáticamente al dashboard principal.
@@ -75,22 +97,13 @@ Para que Hyler GitBash funcione con todo su potencial, es recomendable tener ins
 
 Una vez instalado, podés escribir `comandos` en la terminal para ver la vista rápida, o usar **`comandos -a`** para leer el manual detallado.
 
-| Comando | Descripción |
-| :--- | :--- |
-| `c` | Limpia la pantalla y recarga el dashboard visual. |
-| `comandos -a` | Despliega el menú de ayuda con la referencia detallada de cada atajo. |
-| `configurar-entorno` | **Abre el asistente interactivo para personalizar tu terminal.** |
-| `mi-config` | Muestra un resumen en pantalla de tus variables actuales (nombre, ciudad, rutas). |
-| `dev` | Ejecuta `npm run dev` al instante. |
-| `killport 3000` | Libera el puerto 3000 si quedó bloqueado por un proceso de Node/Express. |
-| `nota [texto]` | Guarda una nota rápida con la fecha actual en tu backlog. |
-| `misnotas` | Imprime todas tus notas pendientes en pantalla de forma estructurada. |
-| `api` | Salta al instante a tu carpeta principal de proyectos. |
-| `bashconfig -r` | Abre el editor para modificar tu `.bashrc`, o usa `-r` para recargar al instante sin abrir el editor. |
+<img src="https://i.ibb.co/qQgSJWP/menu.gif" alt="menu" border="0" width="600">
 
 ## 🤝 Contribuciones
 
 Si tenés ideas para agregar más alias útiles, mejorar el asistente o sumar integraciones para Backend, ¡los pull requests son 100% bienvenidos!
+
+Para desarrolladores que quieran contribuir al código, revisá la guía de contribuición en [CONTRIBUTING.md](CONTRIBUTING.md) para conocer el flujo de trabajo y comandos de desarrollo disponibles.
 
 ---
 
