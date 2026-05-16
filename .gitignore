@@ -1,1 +1,3 @@
 .dotfiles/user_config.sh
+.env
+scripts

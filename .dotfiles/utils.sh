@@ -256,3 +256,37 @@ killport() {
         fi
     fi
 }
+
+new-command() {
+    if [ $# -ne 2 ]; then
+        echo -e "\e[31m❌ Error: Usage: new-command <atajo> '<comando completo>'\e[0m"
+        echo -e "\e[90mEjemplo: new-command ... 'cd ../..'\e[0m"
+        return 1
+    fi
+
+    local ATAJO="$1"
+    local COMANDO="$2"
+
+    if [ -z "$ATAJO" ] || [ -z "$COMANDO" ]; then
+        echo -e "\e[31m❌ Error: El atajo y el comando no pueden estar vacíos.\e[0m"
+        return 1
+    fi
+
+    local ALIASES_FILE="$DOTFILES_DIR/aliases.sh"
+
+    if [ ! -f "$ALIASES_FILE" ]; then
+        echo -e "\e[33m⚠️  El archivo de alias no existe. Creando uno nuevo en $ALIASES_FILE\e[0m"
+        touch "$ALIASES_FILE"
+    fi
+
+    # Eliminar cualquier alias existente para el mismo atajo
+    sed -i "/^alias $ATAJO=/d" "$ALIASES_FILE"
+
+    # Agregar el nuevo alias
+    echo "alias $ATAJO='$COMANDO'" >> "$ALIASES_FILE"
+
+    # Recargar los aliases para hacer disponible el nuevo alias inmediatamente
+    source "$ALIASES_FILE"
+
+    echo -e "\e[32m✔️  Alias '$ATAJO' -> '$COMANDO' creado y recargado.\e[0m"
+}
